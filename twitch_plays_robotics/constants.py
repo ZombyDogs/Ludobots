@@ -22,11 +22,9 @@ maximizeVestibular = 'vestibular'
 
 # ------------- Other parameters -------------------
 
-#evaluationTime = 1000
+evaluationTime = 1000
 
-evaluationTime = 100
-
-maxDepth = 4 
+maxDepth = 4
 
 maxChildren = 2
 
