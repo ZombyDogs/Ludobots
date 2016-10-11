@@ -66,15 +66,18 @@ void RAY_SENSOR::Connect_To_Sensor_Neuron(NEURON *sensorNeuron) {
         mySensorNeurons[ sensorNeuron->Get_Sensor_Value_Index() ] = sensorNeuron;
 }
 
-void RAY_SENSOR::Draw(double endX, double endY, double endZ, int t) {
+void RAY_SENSOR::Draw(int t) {
 
-        const dReal *start = dGeomGetPosition( ray );
+        if ( distances[t] < 10.0 ) {
 
-	double end[3] = {endX,endY,endZ};
+                const dReal *start = dGeomGetPosition( ray );
 
-        dsSetColor(r[t],g[t],b[t]);
+                double end[3] = {collisionPointX,collisionPointY,collisionPointZ};
 
-        dsDrawLine( start , end );
+                dsSetColor(r[t],g[t],b[t]);
+
+                dsDrawLine( start , end );
+        }
 }
 
 int  RAY_SENSOR::Get_ID(void) {
@@ -104,24 +107,30 @@ void RAY_SENSOR::Initialize(int evalPeriod) {
         }
 }
 
-void RAY_SENSOR::Set(double dist, OBJECT *objectThatWasHit,int t) {
+void RAY_SENSOR::Set(double dist, double hitX, double hitY, double hitZ, OBJECT *objectThatWasHit,int t) {
 
-	if ( dist > distances[t] )
-	
-	// The ray sensor stops when it hits its first object.
+        if ( dist > distances[t] )
 
-		return;
+        // The ray sensor stops when it hits its first object.
 
-	distances[t] = dist;
+                return;
 
-	if ( objectThatWasHit ) {
+        distances[t] = dist;
 
-		r[t] = objectThatWasHit->Get_Red_Component();
+        collisionPointX = hitX;
+
+        collisionPointY = hitY;
+
+        collisionPointZ = hitZ;
+
+        if ( objectThatWasHit ) {
+
+                r[t] = objectThatWasHit->Get_Red_Component();
 
                 g[t] = objectThatWasHit->Get_Green_Component();
 
                 b[t] = objectThatWasHit->Get_Blue_Component();
-	}
+        }
 }
 
 void RAY_SENSOR::Update_Sensor_Neurons(int t) {

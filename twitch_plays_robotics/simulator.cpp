@@ -49,11 +49,13 @@ void Handle_Ray_Sensor(dGeomID o1, dGeomID o2) {
 
         		OBJECT *obj = (OBJECT *)dGeomGetData(o1);
 
-                	obj->Set_Ray_Sensor(contact.geom.depth,(OBJECT*)dGeomGetData(o2),timer);
+                        obj->Set_Ray_Sensor(    contact.geom.depth,
+                                                contact.geom.pos[0],
+                                                contact.geom.pos[1],
+                                                contact.geom.pos[2],
+                                                (OBJECT*)dGeomGetData(o2),
+                                                timer);
 
-                	if ( runBlind == false )
-
-				obj->Draw_Ray_Sensor(contact.geom.pos[0],contact.geom.pos[1],contact.geom.pos[2],timer);
 		}
         }
 }
@@ -173,7 +175,7 @@ static void simLoop (int pause)
 
 		Simulate_For_One_Time_Step();
 
-	environment->Draw();
+	environment->Draw(timer-1);
 }
 
 void Initialize_ODE(void) {
