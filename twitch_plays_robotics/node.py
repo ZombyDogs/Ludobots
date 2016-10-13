@@ -146,6 +146,8 @@ class NODE:
 
                 self.lightSensor = LIGHT_SENSOR( ID = sensorsCreated[0] , objectIndex = self.ID , simulator = simulator)
                 sensorsCreated[0] = sensorsCreated[0] + 1
+
+		# testing
 	
 		if ( self.numChildren == 0 ):
 
